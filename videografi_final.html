@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Videografi Keren | 4-Slide</title>
+    
+    <style>
+        /* CSS INTERNAL: Gabungan Semua Style */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Container Slider */
+        .slider-container {
+            width: 400%;
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        /* Style untuk Setiap Slide */
+        .slide {
+            width: 25%;
+            height: 100vh;
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            color: #333;
+        }
+
+        /* Warna Background Slide */
+        #slide-1 {
+            background: linear-gradient(135deg, #007bff, #b3e0ff); /* Biru ke Biru Muda */
+            color: white;
+        }
+        #slide-2 {
+            background-color: #ffffff; /* Putih */
+        }
+        #slide-3 {
+            background: linear-gradient(135deg, #28a745, #90ee90); /* Hijau ke Hijau Muda */
+            color: white;
+        }
+        #slide-4 {
+            background: linear-gradient(135deg, #007bff, #ffffff); /* Biru ke Putih */
+        }
+
+        /* Navigasi (Tombol) */
+        .next-btn, .prev-btn {
+            position: absolute;
+            bottom: 20px;
+            padding: 10px 20px;
+            background-color: #ffc107; /* Kuning (Keren) */
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 10; /* Pastikan tombol di atas elemen lain */
+        }
+        .next-btn:hover, .prev-btn:hover {
+            background-color: #e0a800;
+        }
+        .prev-btn {
+            left: 20px;
+        }
+        .next-btn {
+            right: 20px;
+        }
+        #slide-1 .prev-btn, 
+        #slide-4 .next-btn {
+            display: none;
+        }
+
+        /* Efek Perubahan Slide */
+        :target ~ .slider-container {
+            /* Fallback untuk browser yang tidak mendukung CSS target pada elemen sibling */
+            transform: translateX(0%); 
+        }
+        #slide-1:target ~ .slider-container { transform: translateX(0%); }
+        #slide-2:target ~ .slider-container { transform: translateX(-25%); }
+        #slide-3:target ~ .slider-container { transform: translateX(-50%); }
+        #slide-4:target ~ .slider-container { transform: translateX(-75%); }
+
+        /* Styling Slide 1 (Paket) */
+        .package-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            max-width: 1200px;
+        }
+        .package {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            color: #333;
+            transition: transform 0.3s;
+            border: 3px solid transparent;
+        }
+        .package:hover {
+            transform: translateY(-5px);
+        }
+        .package.vip {
+            border-color: gold; /* Tambahan elemen keren */
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .package h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            color: #007bff;
+        }
+        .package.vip h3 {
+            border-bottom: 2px solid gold;
+            color: gold;
+        }
+        .package ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .package li {
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        .price {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #dc3545;
+            margin: 10px 0;
+            animation: pulse 1.5s infinite; /* Elemen keren: Efek detak pada harga */
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .description {
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        /* Styling Slide 2 (Formulir) */
+        .registration-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: left;
+            color: #333;
+        }
+        .registration-form label {
+            display: block;
+            margin-bottom: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .registration-form input,
+        .registration-form textarea,
+        .registration-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .registration-form button {
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: not-allowed;
+            font-weight: bold;
+        }
+        
+        /* Styling Slide 3 (Pembayaran) */
+        .payment-options {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .payment-options > div {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .payment-options h3 {
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 5px;
+            color: #28a745;
+        }
+        .rules {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            max-width: 600px;
+            border: 1px solid #ffc107;
+            color: #333;
+        }
+        .rules h3 {
+            color: #ffc107;
+            margin-top: 0;
+        }
+        .rules ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+        .rules li {
+            margin-bottom: 10px;
+        }
+
+        /* Styling Slide 4 (WA) */
+        .contact-info {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            color: #333;
+        }
+        .whatsapp-btn {
+            display: block;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: scale(1.05); /* Efek keren */
+        }
+        .whatsapp-btn::before {
+            content: "📞 "; /* Ikon telepon */
+        }
+        .phone-number {
+            font-size: 1.1em;
+            margin-top: 15px;
+        }
+        .final-note {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(0, 123, 255, 0.1);
+            border-left: 5px solid #007bff;
+            max-width: 500px;
+            color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .package-container {
+                flex-direction: column;
+            }
+            .slide {
+                padding: 20px;
+            }
+            .payment-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider-container">
+    <div class="slide" id="slide-1">
+        <h2>✨ Pilih Paket Videografi Anda ✨</h2>
+        <div class="package-container">
+            <div class="package basic">
+                <h3>Paket Biasa 🎥</h3>
+                <p class="price">Rp 450.000</p>
+                <ul>
+                    <li>Durasi liputan **4 jam**</li>
+                    <li>1 Kameraman profesional</li>
+                    <li>Hasil video durasi 1 menit (*Highlight*)</li>
+                    <li>Kualitas Video **HD**</li>
+                    <li>❌ Tanpa *Drone*</li>
+                </ul>
+                <p class="description">Cocok untuk acara kecil dan sederhana. Pilihan ekonomis!</p>
+            </div>
+            <div class="package premium">
+                <h3>Paket Premium 🌟</h3>
+                <p class="price">Rp 950.000</p>
+                <ul>
+                    <li>Durasi liputan **8 jam**</li>
+                    <li>2 Kameraman profesional</li>
+                    <li>Hasil video durasi 3-5 menit (Cinematic)</li>
+                    <li>Peralatan tambahan (*Stabilizer*, *Lighting*)</li>
+                    <li>Kualitas Video **Full HD**</li>
+                    <li>❌ Tanpa *Drone*</li>
+                </ul>
+                <p class="description">Kualitas video sinematik untuk momen penting dengan peralatan lengkap.</p>
+            </div>
+            <div class="package vip">
+                <h3>Paket VIP 👑 *BEST VALUE*</h3>
+                <p class="price">Rp 1.850.000</p>
+                <ul>
+                    <li>Durasi liputan **Full Day**</li>
+                    <li>2 Kameraman & 1 Asisten</li>
+                    <li>Hasil video durasi 5-7 menit (Premium Cinematic)</li>
+                    <li>Kualitas Video **4K**</li>
+                    <li>✅ **Termasuk Liputan *Drone*** 🚁 (Eksklusif VIP)</li>
+                    <li>Semua *footage* mentah diberikan</li>
+                </ul>
+                <p class="description">Pengalaman videografi terbaik, liputan udara eksklusif, dan kualitas tertinggi.</p>
+            </div>
+        </div>
+        <a href="#slide-2" class="next-btn">Lanjut ke Pendaftaran ➡️</a>
+    </div>
+
+    <div class="slide" id="slide-2">
+        <h2>📝 Formulir Pendaftaran</h2>
+        <form class="registration-form">
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" name="nama" required placeholder="Nama Anda">
+            
+            <label for="tgl">Tanggal Acara:</label>
+            <input type="date" id="tgl" name="tanggal" required>
+            
+            <label for="tempat">Tempat Acara (Alamat Lengkap):</label>
+            <textarea id="tempat" name="tempat" rows="3" required placeholder="Alamat detail tempat acara"></textarea>
+            
+            <label for="paket">Paket yang Dipilih:</label>
+            <select id="paket" name="paket" required>
+                <option value="">-- Pilih Paket --</option>
+                <option value="Biasa">Paket Biasa (Rp 450.000)</option>
+                <option value="Premium">Paket Premium (Rp 950.000)</option>
+                <option value="VIP">Paket VIP (Rp 1.850.000)</option>
+            </select>
+
+            <label for="kontak">Nomor Kontak (HP/WA):</label>
+            <input type="tel" id="kontak" name="kontak" required placeholder="Contoh: 0812xxxxxxxx">
+
+            <label for="jenis-acara">Jenis Acara:</label>
+            <input type="text" id="jenis-acara" name="jenis-acara" placeholder="Contoh: Pernikahan/Ulang Tahun" required>
+            
+            <button type="submit" disabled>Formulir Terisi Lengkap</button>
+        </form>
+        <a href="#slide-1" class="prev-btn">⬅️ Kembali</a>
+        <a href="#slide-3" class="next-btn">Lanjut ke Pembayaran ➡️</a>
+    </div>
+
+    <div class="slide" id="slide-3">
+        <h2>💳 Metode Pembayaran</h2>
+        <div class="payment-options">
+            <div class="bank">
+                <h3>Transfer Bank 🏦</h3>
+                <p>BCA | BRI | BNI</p>
+            </div>
+            <div class="e-wallet">
+                <h3>E-Wallet 📱</h3>
+                <p>OVO | DANA | GoPay</p>
+            </div>
+            <div class="cash">
+                <h3>Tunai 💵</h3>
+                <p>Pembayaran langsung di lokasi atau saat pertemuan.</p>
+            </div>
+        </div>
+
+        <div class="rules">
+            <h3>Peraturan Pembayaran 📋</h3>
+            <ul>
+                <li>**DP (Down Payment) minimal 30%** harus dibayarkan segera untuk mengamankan tanggal (*booking*).</li>
+                <li>Pelunasan wajib dilakukan **maksimal 1 hari** sebelum acara dimulai.</li>
+                <li>Pembatalan setelah DP dibayarkan, DP **tidak dapat dikembalikan (non-refundable)**.</li>
+                <li>Detail Nomor Rekening/E-Wallet akan diberikan setelah Anda menghubungi *Customer Service*.</li>
+            </ul>
+        </div>
+        <a href="#slide-2" class="prev-btn">⬅️ Kembali</a>
+        <a href="#slide-4" class="next-btn">Lanjut ke Konfirmasi Pembayaran ➡️</a>
+    </div>
+
+    <div class="slide" id="slide-4">
+        <h2>📞 Konfirmasi dan Pembayaran Lanjut</h2>
+        <div class="contact-info">
+            <p>Untuk konfirmasi pendaftaran dan detail pembayaran, silakan hubungi *Customer Service* kami melalui WhatsApp:</p>
+            <a href="https://wa.me/6285730389557" target="_blank" class="whatsapp-btn">
+                Hubungi via WhatsApp (CS Kami)
+            </a>
+            <p class="phone-number">Nomor WhatsApp: **0857 3038 9557**</p>
+        </div>
+        
+        <div class="final-note">
+            <h3>Catatan Penting:</h3>
+            <p>Mohon kirimkan bukti transfer pembayaran DP Anda saat menghubungi nomor di atas. Kami siap mengabadikan momen spesial Anda! Terima kasih.</p>
+        </div>
+        <a href="#slide-3" class="prev-btn">⬅️ Kembali</a>
+    </div>
+
+</div>
+
+</body>
+</html>
